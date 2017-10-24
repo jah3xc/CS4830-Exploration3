@@ -38,9 +38,11 @@ angular.module('sortApp', [])
     this.commit = function () {
       $("#loading").dialog(no_close)
       console.log(JSON.stringify($scope.classes))
+
       var data = { "json_data": JSON.stringify($scope.classes) }
-      $http.post("commit.php", data).then(function (response) {
-        console.log(response.config.data.json_data)
+      var url = "commit.php?" + $.param(data);
+      console.log(url)
+      $http.get(url).then(function (response) {
         $("#loading").dialog("close")
         $("<div>Commit Successful!</div>").dialog(dialog_options)
         c.dirty = false;
