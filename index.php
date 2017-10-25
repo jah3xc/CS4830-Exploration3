@@ -69,14 +69,18 @@
             <span ng-show="sortType == 'professor' && sortReverse" class="fa fa-caret-up"></span>
           </a>
           </td>
+          <td></td>
         </tr>
       </thead>
 
       <tbody>
-        <tr ng-repeat="c in classes | orderBy:sortType:sortReverse | filter:search">
+        <tr ng-repeat="c in classes | orderBy:sortType:sortReverse | filter:search track by $index">
           <td>{{ c.name }}</td>
           <td>{{ c.code }}</td>
           <td>{{ c.professor }}</td>
+          <td style="width:10px">
+            <i class="fa fa-times" aria-hidden="true" class="btn btn-link" ng-click="ctrl.delete($index)"></i>
+          </td>
         </tr>
       </tbody>
 

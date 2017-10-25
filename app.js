@@ -52,4 +52,9 @@ angular.module('sortApp', [])
       })
     }
 
+    this.delete = function (idx) {
+      $scope.classes.splice(idx, 1);
+      this.dirty = true;
+    }
+
   }]);
