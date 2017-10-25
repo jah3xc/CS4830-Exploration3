@@ -1,24 +1,25 @@
 <?php
 
 $data = json_decode($_GET["json_data"]);
-
+if(!$data or count($data) < 1) {
+    die("Invalid Data Found");
+}
 require_once("DB_CONFIG.php");
 $connection = pg_connect(CONNECTION_STRING);
 
 if(!$connection) {
     die("No connection");
 }
-
-pg_query("BEGIN") or die("Couldn't start transaction");
-
-foreach($data as $class) {
-
-	$insert = pg_prepare($connection, "in", "SELECT create_transaction($1,$2,$3)");
-	pg_execute($connection, "in", array($_POST["type"], $_POST["amount"], $_POST["name"]));
-
+pg_query($connection, "BEGIN") or die("Couldn't start transaction");
+pg_query($connection, "DELETE FROM class");
+for($i =0; $i < count($data); $i++) {
+    $class = $data[$i];
+	$insert = pg_prepare($connection, "in" . $i, "SELECT create_class($1,$2,$3)");
+	pg_execute($connection, "in" . $i, array($class->name, $class->code, $class->professor));
 }
 
-pg_query("COMMIT")
+
+pg_query($connection, "COMMIT");
 
 pg_close($connection);
 
