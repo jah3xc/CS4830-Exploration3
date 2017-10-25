@@ -1,9 +1,6 @@
 <?php
-
 $data = json_decode($_GET["json_data"]);
-if(!$data or count($data) < 1) {
-    die("Invalid Data Found");
-}
+
 require_once("DB_CONFIG.php");
 $connection = pg_connect(CONNECTION_STRING);
 
